@@ -39,7 +39,7 @@ public class DuracaoDeVoo {
             return false;
         }
 
-        final Horario outro = (Horario) obj;
+        final DuracaoDeVoo outro = (DuracaoDeVoo) obj;
         if (outro.pegaHoras() != this.horas) {
             return false;
         }
