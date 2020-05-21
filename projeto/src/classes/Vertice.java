@@ -10,11 +10,11 @@ import java.util.Set;
 public class Vertice {
 
     private String id;
-    private Map<Vertice, Integer> adjacentes;
+    private Map<Vertice, PesoDaAresta> adjacentes;
 
     public Vertice(String id) {
         this.id = id;
-        this.adjacentes = new HashMap<Vertice, Integer>();
+        this.adjacentes = new HashMap<Vertice, PesoDaAresta>();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class Vertice {
         return "Vertice " + this.id + "\nAdjacentes:\n" + textoDeAdjacentes.toString();
     }
 
-    public void adicionaVizinho(Vertice vizinho, int peso) {
+    public void adicionaVizinho(Vertice vizinho, PesoDaAresta peso) {
         this.adjacentes.put(vizinho, peso);
     }
 
@@ -40,7 +40,7 @@ public class Vertice {
         return this.id;
     }
 
-    public int pegaPeso(Vertice vizinho) {
+    public PesoDaAresta pegaPeso(Vertice vizinho) {
         return this.adjacentes.get(vizinho);
     }
 }

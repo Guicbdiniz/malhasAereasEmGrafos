@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import classes.DuracaoDeVoo;
+import classes.PesoDaAresta;
 import classes.Vertice;
 
 /**
@@ -12,6 +14,7 @@ import classes.Vertice;
  */
 public class VerticeTeste {
 
+    private PesoDaAresta pesoTeste;
     private Vertice verticeTeste;
     private Vertice verticeVizinhoTeste;
 
@@ -19,6 +22,7 @@ public class VerticeTeste {
     public void setUp() {
         this.verticeTeste = new Vertice("A");
         this.verticeVizinhoTeste = new Vertice("B");
+        this.pesoTeste = PesoDaAresta.criaPesoDeRota(3, new DuracaoDeVoo(1, 20));
     }
 
     @Test
@@ -29,14 +33,14 @@ public class VerticeTeste {
     @Test
     public void testaAdicionarVizinho() {
 
-        this.verticeTeste.adicionaVizinho(verticeVizinhoTeste, 2);
+        this.verticeTeste.adicionaVizinho(verticeVizinhoTeste, this.pesoTeste);
         assertEquals(1, verticeTeste.pegaVizinhos().size());
     }
 
     @Test
     public void testaPegaPeso() {
 
-        this.verticeTeste.adicionaVizinho(verticeVizinhoTeste, 2);
+        this.verticeTeste.adicionaVizinho(verticeVizinhoTeste, this.pesoTeste);
         assertEquals(2, this.verticeTeste.pegaPeso(this.verticeVizinhoTeste));
     }
 }

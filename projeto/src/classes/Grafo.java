@@ -29,7 +29,7 @@ public class Grafo {
         return this.verticesMap.get(id);
     }
 
-    public void adicionaAresta(String idVerticeA, String idVerticeB, int peso) {
+    public void adicionaAresta(String idVerticeA, String idVerticeB, PesoDaAresta peso) {
         if (this.verticesMap.get(idVerticeA) == null) {
             this.adicionaVertice(idVerticeA);
         }

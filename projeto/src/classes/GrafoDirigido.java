@@ -6,7 +6,7 @@ package classes;
 public class GrafoDirigido extends Grafo {
 
     @Override
-    public void adicionaAresta(String idOrigem, String idDestino, int peso) {
+    public void adicionaAresta(String idOrigem, String idDestino, PesoDaAresta peso) {
         if (this.pegaVertice(idOrigem) == null) {
             this.adicionaVertice(idOrigem);
         }
