@@ -35,7 +35,7 @@ public class DuracaoDeVoo {
             return false;
         }
 
-        if (!Horario.class.isAssignableFrom(obj.getClass())) {
+        if (!DuracaoDeVoo.class.isAssignableFrom(obj.getClass())) {
             return false;
         }
 
