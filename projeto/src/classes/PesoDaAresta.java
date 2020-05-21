@@ -1,5 +1,7 @@
 package classes;
 
+import java.util.List;
+
 import excecoes.RotaNaoEVooExcecao;
 
 /**
@@ -16,20 +18,20 @@ public class PesoDaAresta {
 
     private int distancia;
     private DuracaoDeVoo duracao;
-    private Horario horario;
+    private List<Horario> horarios;
 
     /** Construtor privado de rota. */
     private PesoDaAresta(int distancia, DuracaoDeVoo duracao) {
         this.distancia = distancia;
         this.duracao = duracao;
-        this.horario = null;
+        this.horarios = null;
     }
 
     /** Construtor privado de vôo. */
-    private PesoDaAresta(int distancia, DuracaoDeVoo duracao, Horario horario) {
+    private PesoDaAresta(int distancia, DuracaoDeVoo duracao, List<Horario> horarios) {
         this.distancia = distancia;
         this.duracao = duracao;
-        this.horario = horario;
+        this.horarios = horarios;
     }
 
     /** Método gerador de rota. */
@@ -38,8 +40,8 @@ public class PesoDaAresta {
     }
 
     /** Método gerador de vôo. */
-    public static PesoDaAresta criaPesoDeVoo(int distancia, DuracaoDeVoo duracao, Horario horario) {
-        return new PesoDaAresta(distancia, duracao, horario);
+    public static PesoDaAresta criaPesoDeVoo(int distancia, DuracaoDeVoo duracao, List<Horario> horarios) {
+        return new PesoDaAresta(distancia, duracao, horarios);
     }
 
     /** Pega peso de distância da aresta. */
@@ -57,10 +59,10 @@ public class PesoDaAresta {
      * 
      * Se o peso de uma rota tentar acessá-lo, uma excessão será lançada.
      */
-    public Horario pegaHorario() throws RotaNaoEVooExcecao {
-        if (horario == null)
+    public List<Horario> pegaHorario() throws RotaNaoEVooExcecao {
+        if (horarios == null)
             throw new RotaNaoEVooExcecao("Não se deve pegar horario de uma rota.");
-        return horario;
+        return horarios;
     }
 
 }
