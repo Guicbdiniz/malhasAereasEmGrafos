@@ -20,11 +20,11 @@ public class PesoDaAresta {
         this.horario = horario;
     }
 
-    public PesoDaAresta criaPesoDeRota(int distancia, DuracaoDeVoo duracao) {
+    public static PesoDaAresta criaPesoDeRota(int distancia, DuracaoDeVoo duracao) {
         return new PesoDaAresta(distancia, duracao);
     }
 
-    public PesoDaAresta criaPesoDeVoo(int distancia, DuracaoDeVoo duracao, Horario horario) {
+    public static PesoDaAresta criaPesoDeVoo(int distancia, DuracaoDeVoo duracao, Horario horario) {
         return new PesoDaAresta(distancia, duracao, horario);
     }
 
