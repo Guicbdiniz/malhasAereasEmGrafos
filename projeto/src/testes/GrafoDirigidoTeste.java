@@ -10,6 +10,9 @@ import classes.GrafoDirigido;
 import classes.PesoDaAresta;
 import classes.Vertice;
 
+/**
+ * Teste para a classe GrafoDirigido.
+ */
 public class GrafoDirigidoTeste {
 
     private GrafoDirigido grafoDirigidoTeste;

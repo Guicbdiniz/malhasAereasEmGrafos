@@ -4,19 +4,27 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-/*
+/**
  * Grafo não dirigido.
+ * 
+ * Sua única responsabilidade é sobre os seus vértices. Suas arestas são
+ * tratadas por cada vértice. Seus vértices são salvos em um dicionário (HashMap
+ * em Java) que conecta seus nomes identificadores aos vértices em sí.
+ * 
+ * O número de vértices é salvo em um atributo por motivos de praticidade.
  */
 public class Grafo {
 
     private int numeroDeVertices;
     private Map<String, Vertice> verticesMap;
 
+    /** Simples construtor. */
     public Grafo() {
         this.numeroDeVertices = 0;
         this.verticesMap = new HashMap<String, Vertice>();
     }
 
+    /** Adiciona novo vértice ao grafo a partir de seu nome identificador. */
     public Vertice adicionaVertice(String idAdicionado) {
         Vertice verticeAdicionado = new Vertice(idAdicionado);
 
@@ -25,10 +33,18 @@ public class Grafo {
         return verticeAdicionado;
     }
 
+    /** Pega v;ertice do grafo a partir de seu identificador. */
     public Vertice pegaVertice(String id) {
         return this.verticesMap.get(id);
     }
 
+    /**
+     * Adiciona aresta ao grafo.
+     * 
+     * @param idVerticeA - nome identificador do primeiro vértice da aresta.
+     * @param idVerticeB - nome identificador do segundo vértice da aresta.
+     * @param peso       - peso da aresta.
+     */
     public void adicionaAresta(String idVerticeA, String idVerticeB, PesoDaAresta peso) {
         if (this.verticesMap.get(idVerticeA) == null) {
             this.adicionaVertice(idVerticeA);
@@ -42,10 +58,12 @@ public class Grafo {
         this.verticesMap.get(idVerticeB).adicionaVizinho(this.verticesMap.get(idVerticeA), peso);
     }
 
+    /** Pega nome identificador de todos os vértices do grafo. */
     public Set<String> pegaIDDosVertices() {
         return this.verticesMap.keySet();
     }
 
+    /** Pega número total de vértices do grafo. */
     public int pegaNumeroDeVertices() {
         return this.numeroDeVertices;
     }
