@@ -33,7 +33,7 @@ public class Grafo {
         return verticeAdicionado;
     }
 
-    /** Pega v;ertice do grafo a partir de seu identificador. */
+    /** Pega vértice do grafo a partir de seu identificador. */
     public Vertice pegaVertice(String id) {
         return this.verticesMap.get(id);
     }
