@@ -52,4 +52,9 @@ public class GeradorDeMalhaAereaTeste {
         assertEquals("Número de vértices dos voos não bate com os esperado", 3,
                 malhaTeste.pegaVoos().pegaNumeroDeVertices());
     }
+
+    @Test
+    public void testeDeImpressaoDaMalha() {
+        System.out.println(this.malhaTeste.toString());
+    }
 }
