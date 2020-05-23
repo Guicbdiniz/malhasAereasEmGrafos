@@ -65,4 +65,21 @@ public class PesoDaAresta {
         return horarios;
     }
 
+    /** Retorna o peso em forma de String que pode ser lido por usuários. */
+    @Override
+    public String toString() {
+        StringBuilder textoDosHorarios = new StringBuilder("");
+
+        if (this.horarios != null) {
+            textoDosHorarios.append("Horários:\n");
+            for (Horario horario : horarios) {
+                textoDosHorarios.append("\t" + horario.pegaHoras() + ":" + horario.pegaMinutos());
+            }
+            textoDosHorarios.append("\n");
+        }
+
+        return "Peso:\nDistância: " + this.distancia + "\nDuração: " + this.duracao.pegaHoras() + ":"
+                + this.duracao.pegaMinutos() + "\n" + textoDosHorarios.toString();
+    }
+
 }

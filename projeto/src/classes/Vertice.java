@@ -58,9 +58,11 @@ public class Vertice {
         StringBuilder textoDeAdjacentes = new StringBuilder();
 
         for (Vertice vertice : this.adjacentes.keySet()) {
-            textoDeAdjacentes.append("\tVertice " + vertice.id);
+            textoDeAdjacentes.append("Vertice " + vertice.id + "\n");
+            textoDeAdjacentes.append(this.pegaPeso(vertice).toString());
         }
 
-        return "Vertice " + this.id + "\nAdjacentes:\n" + textoDeAdjacentes.toString();
+        return "Vertice " + this.id + "\nAdjacentes:\n" + textoDeAdjacentes.toString()
+                + "------------------------------------";
     }
 }

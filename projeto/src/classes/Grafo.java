@@ -67,4 +67,16 @@ public class Grafo {
     public int pegaNumeroDeVertices() {
         return this.numeroDeVertices;
     }
+
+    /** Retorna o grafo em forma de String que pode ser lido por usuários. */
+    @Override
+    public String toString() {
+        StringBuilder textoDoGrafo = new StringBuilder();
+
+        for (Vertice vertice : verticesMap.values()) {
+            textoDoGrafo.append(vertice.toString() + "\n");
+        }
+
+        return textoDoGrafo.toString() + "====================================";
+    }
 }
