@@ -57,8 +57,7 @@ public class Horario {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 53 * hash + this.horas;
-        hash = 53 * hash + this.minutos;
+        hash = (53 * hash + this.horas) + (53 * hash + this.minutos);
         return hash;
     }
 }

@@ -11,7 +11,7 @@ import java.util.Set;
  * sendo útil apenas no contexto desse projeto.
  * 
  * A responsabilidade de cada vértice e de guardar seu nome identificador e de
- * tratar das suas ligaçõess com vértices vizinhos.
+ * tratar das suas ligações com vértices vizinhos.
  * 
  * As ligações com os vértices vizinhos (arestas) foram desenvolvidas na forma
  * de um dicionário (HashMap, em Java). Ele liga o vértice vizinho com o peso
