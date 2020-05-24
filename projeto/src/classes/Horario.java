@@ -25,6 +25,11 @@ public class Horario {
         return minutos;
     }
 
+    /** Checa se horário é antes de horário comparado */
+    public boolean eAntesDe(Horario horario) {
+        return horas < horario.horas ? true : (minutos < horario.minutos);
+    }
+
     /**
      * Sobrecarga no método de comparação para que testes possam ser feitos.
      */
