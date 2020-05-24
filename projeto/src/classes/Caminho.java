@@ -62,4 +62,16 @@ public class Caminho {
         return sequenciaDeIDDeVertices;
     }
 
+    /** Retorna o caminho em forma de String que pode ser lido por usuários. */
+    @Override
+    public String toString() {
+        StringBuilder textoDeCadaVertice = new StringBuilder("\t");
+
+        for (Vertice vertice : this.sequenciaDeVertices) {
+            textoDeCadaVertice.append(vertice.pegaID() + " ");
+        }
+
+        return "Caminho: \n" + textoDeCadaVertice.toString();
+    }
+
 }
