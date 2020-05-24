@@ -1,8 +1,11 @@
 package classes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 /**
  * Grafo não dirigido.
@@ -66,6 +69,64 @@ public class Grafo {
     /** Pega número total de vértices do grafo. */
     public int pegaNumeroDeVertices() {
         return this.numeroDeVertices;
+    }
+
+    /**
+     * Pega lista de caminhos possíveis de um vértice inicial do grafo a outro
+     * vértice final.
+     * 
+     * @param idVerticeInicial - vértice inicial do caminho.
+     * @param idVerticeFinal   - vértice final do caminho.
+     * @return lista de caminhos possíveis.
+     */
+    public List<Caminho> pegaCaminhosEntreVertices(String idVerticeInicial, String idVerticeFinal) {
+
+        Vertice verticeInicial = verticesMap.get(idVerticeInicial);
+        Vertice verticeFinal = verticesMap.get(idVerticeFinal);
+        List<Caminho> caminhosEntreVertices = new ArrayList<Caminho>();
+
+        for (Vertice vizinhoAoInicial : verticeInicial.pegaVizinhos()) {
+            Stack<Vertice> pilhaDeCaminho = new Stack<Vertice>();
+            pilhaDeCaminho.add(verticeInicial);
+            pilhaDeCaminho.add(vizinhoAoInicial);
+
+            pegaCaminhosRecursivamente(caminhosEntreVertices, verticeFinal, pilhaDeCaminho);
+        }
+
+        return caminhosEntreVertices;
+    }
+
+    /**
+     * Pega caminhos para vértice final recursivamente a partir de pilha de caminho
+     * atual.
+     * 
+     * A idéia e pegar todos os caminhos a partir dos vizinhos do vértice que está
+     * no topo da pilha.
+     * 
+     * Se o atual for o vértice final, o caminho deve ser adicionado aos caminhos
+     * achados.
+     * 
+     * @param caminhosAchados - caminhos achados até então.
+     * @param verticeFinal    - vértice final dos caminhos.
+     * @param caminhoAtual    - pilha de vértices do caminho atual.
+     */
+    private void pegaCaminhosRecursivamente(List<Caminho> caminhosAchados, Vertice verticeFinal,
+            Stack<Vertice> caminhoAtual) {
+
+        Vertice atual = caminhoAtual.peek();
+
+        if (atual.equals(verticeFinal)) {
+            caminhosAchados.add(Caminho.pegaCaminhoDePilha(caminhoAtual));
+        }
+
+        for (Vertice vizinho : atual.pegaVizinhos()) {
+            if (!caminhoAtual.contains(vizinho)) {
+                caminhoAtual.add(vizinho);
+                pegaCaminhosRecursivamente(caminhosAchados, verticeFinal, caminhoAtual);
+            }
+        }
+
+        caminhoAtual.pop();
     }
 
     /** Retorna o grafo em forma de String que pode ser lido por usuários. */
