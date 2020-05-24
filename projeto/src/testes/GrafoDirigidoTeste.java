@@ -55,6 +55,9 @@ public class GrafoDirigidoTeste {
         grafoDirigidoTeste.adicionaAresta("E", "C", pesoTeste);
 
         List<Caminho> caminhosEntreAEG = grafoDirigidoTeste.pegaCaminhosEntreVertices("A", "G");
+        for (Caminho caminho : caminhosEntreAEG) {
+            System.out.println(caminho);
+        }
 
         assertEquals(3, caminhosEntreAEG.size());
     }
