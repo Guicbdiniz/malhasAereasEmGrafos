@@ -1,5 +1,8 @@
 package classes;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Horário de vôo.
  * 
@@ -27,7 +30,49 @@ public class Horario {
 
     /** Checa se horário é antes de horário comparado */
     public boolean eAntesDe(Horario horario) {
-        return horas < horario.horas ? true : (minutos < horario.minutos);
+        if (horas < horario.horas) {
+            return true;
+        }
+        if (horas > horario.horas) {
+            return false;
+        }
+        return minutos < horario.minutos;
+    }
+
+    /** Pega horário mais cedo de uma lista de horários */
+    public static Horario pegaHorarioMaisCedo(List<Horario> listadeHorarios) {
+        Horario maisCedo = listadeHorarios.get(0);
+
+        for (int i = 1; i < listadeHorarios.size(); i++) {
+            Horario atual = listadeHorarios.get(i);
+            if (atual.eAntesDe(maisCedo)) {
+                maisCedo = atual;
+            }
+        }
+        return maisCedo;
+    }
+
+    /** Pega horário mais cedo de uma lista que seja depois de horário limite */
+    public static Horario pegaHorarioMaisCedoDepoisDeLimite(List<Horario> listaDeHorarios, Horario limite) {
+        List<Horario> horariosPosLimite = pegaSubListaDeHorariosPosLimite(listaDeHorarios, limite);
+
+        if (horariosPosLimite.size() == 0) {
+            return null;
+        } else {
+            return pegaHorarioMaisCedo(horariosPosLimite);
+        }
+    }
+
+    /** Pega horários dentro de uma lista que acontecem depois de horário limite */
+    public static List<Horario> pegaSubListaDeHorariosPosLimite(List<Horario> listaDeHorarios, Horario limite) {
+        List<Horario> subLista = new ArrayList<Horario>();
+
+        for (Horario horario : listaDeHorarios) {
+            if (limite.eAntesDe(horario)) {
+                subLista.add(horario);
+            }
+        }
+        return subLista;
     }
 
     /**
@@ -64,5 +109,11 @@ public class Horario {
         int hash = 3;
         hash = (53 * hash + this.horas) + (53 * hash + this.minutos);
         return hash;
+    }
+
+    /** Retorna o horário em forma de String que pode ser lido por usuários. */
+    @Override
+    public String toString() {
+        return horas + ":" + minutos;
     }
 }
