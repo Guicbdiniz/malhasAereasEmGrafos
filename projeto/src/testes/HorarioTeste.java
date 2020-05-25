@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import classes.DuracaoDeVoo;
 import classes.Horario;
 
 public class HorarioTeste {
@@ -76,5 +77,25 @@ public class HorarioTeste {
         limite = new Horario(19, 00);
         maisCedo = Horario.pegaHorarioMaisCedoDepoisDeLimite(listaTeste, limite);
         assertEquals("Limite 19 falhou", new Horario(20, 50), maisCedo);
+    }
+
+    @Test
+    public void testaPegaHorarioSomadoComDuracao() {
+        DuracaoDeVoo duracao = new DuracaoDeVoo(1, 40);
+        Horario horario = this.listaTeste.get(0); // 14:10
+        assertEquals("Horário de 14:10 deu erro.", new Horario(15, 50), horario.pegaHorarioSomadoComDuracao(duracao));
+
+        duracao = new DuracaoDeVoo(0, 50);
+        horario = this.listaTeste.get(1); // 7:15
+        assertEquals("Horário de 7:15 deu erro", new Horario(8, 05), horario.pegaHorarioSomadoComDuracao(duracao));
+
+        duracao = new DuracaoDeVoo(10, 30);
+        horario = this.listaTeste.get(2); // 17:00
+        assertEquals("Horário de 17 deu erro", new Horario(3, 30), horario.pegaHorarioSomadoComDuracao(duracao));
+
+        duracao = new DuracaoDeVoo(20, 50);
+        horario = this.listaTeste.get(3); // 8:30
+        assertEquals("Horário de 8:30 deu erro", new Horario(5, 20), horario.pegaHorarioSomadoComDuracao(duracao));
+
     }
 }

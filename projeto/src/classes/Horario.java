@@ -75,6 +75,18 @@ public class Horario {
         return subLista;
     }
 
+    /** Pega novo horário que é a soma desse com uma duração de vôo. */
+    public Horario pegaHorarioSomadoComDuracao(DuracaoDeVoo duracao) {
+        int minutosTotais = this.minutos + duracao.pegaMinutos();
+        int horasDosMinutos = minutosTotais / 60;
+        int sobraDeMinutos = minutosTotais % 60;
+
+        int horasTotais = this.horas + duracao.pegaHoras() + horasDosMinutos;
+        int horasReais = horasTotais % 24;
+
+        return new Horario(horasReais, sobraDeMinutos);
+    }
+
     /**
      * Sobrecarga no método de comparação para que testes possam ser feitos.
      */
