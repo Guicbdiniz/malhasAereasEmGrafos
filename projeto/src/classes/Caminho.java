@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
+import excecoes.RotaNaoEVooExcecao;
+
 /**
  * Caminho entre vértices em um grafo.
  */
@@ -60,6 +62,20 @@ public class Caminho {
         }
 
         return sequenciaDeIDDeVertices;
+    }
+
+    /**
+     * Pega horário mais tarde de vôo que sai do primeiro vértice do caminho e chega
+     * antes do horário limite.
+     * 
+     * Se nenhum horário for cedo os suficiente para chegar antes do limite, o
+     * método retorna NULL.
+     * 
+     * @param limite - limite de horário para se chegar no destino final.
+     * @return horário mais tarde de saída do vértice inicial.
+     */
+    public Horario pegaHorarioMaisTardeDeSaida(Horario limite) throws RotaNaoEVooExcecao {
+        return AnalisadorDeHorarios.analisaHorarioMaisTardeQueChegaNoDestino(sequenciaDeVertices, limite);
     }
 
     /** Retorna o caminho em forma de String que pode ser lido por usuários. */
