@@ -52,6 +52,11 @@ public class HorarioTeste {
     }
 
     @Test
+    public void testaPegaHorarioMaisTarde() {
+        assertEquals(new Horario(20, 50), Horario.pegaHorarioMaisTarde(listaTeste));
+    }
+
+    @Test
     public void testaPegaHorarioMaisCedo() {
         assertEquals(new Horario(7, 15), Horario.pegaHorarioMaisCedo(listaTeste));
     }

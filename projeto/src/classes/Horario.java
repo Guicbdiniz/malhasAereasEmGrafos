@@ -39,6 +39,20 @@ public class Horario {
         return minutos < horario.minutos;
     }
 
+    /** Pega horário mais tarde de uma lista de horários */
+    public static Horario pegaHorarioMaisTarde(List<Horario> listaDeHorarios) {
+        Horario maisTarde = listaDeHorarios.get(0);
+
+        for (int i = 1; i < listaDeHorarios.size(); i++) {
+            Horario atual = listaDeHorarios.get(i);
+            if (maisTarde.eAntesDe(atual)) {
+                maisTarde = atual;
+            }
+        }
+
+        return maisTarde;
+    }
+
     /** Pega horário mais cedo de uma lista de horários */
     public static Horario pegaHorarioMaisCedo(List<Horario> listadeHorarios) {
         Horario maisCedo = listadeHorarios.get(0);
