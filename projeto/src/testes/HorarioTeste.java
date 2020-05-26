@@ -96,6 +96,24 @@ public class HorarioTeste {
         duracao = new DuracaoDeVoo(20, 50);
         horario = this.listaTeste.get(3); // 8:30
         assertEquals("Horário de 8:30 deu erro", new Horario(5, 20), horario.pegaHorarioSomadoComDuracao(duracao));
+    }
 
+    @Test
+    public void testaHorarioSomadoComDuracaoEstoraODia() {
+        DuracaoDeVoo duracao = new DuracaoDeVoo(1, 40);
+        Horario horario = this.listaTeste.get(0); // 14:10
+        assertFalse("Horário de 14:10 deu erro.", horario.horarioSomadoComDuracaoEstoraODia(duracao));
+
+        duracao = new DuracaoDeVoo(0, 50);
+        horario = this.listaTeste.get(1); // 7:15
+        assertFalse("Horário de 7:15 deu erro.", horario.horarioSomadoComDuracaoEstoraODia(duracao));
+
+        duracao = new DuracaoDeVoo(10, 30);
+        horario = this.listaTeste.get(2); // 17:00
+        assertTrue("Horário de 17 deu erro", horario.horarioSomadoComDuracaoEstoraODia(duracao));
+
+        duracao = new DuracaoDeVoo(20, 50);
+        horario = this.listaTeste.get(3); // 8:30
+        assertTrue("Horário de 8:30 deu erro", horario.horarioSomadoComDuracaoEstoraODia(duracao));
     }
 }

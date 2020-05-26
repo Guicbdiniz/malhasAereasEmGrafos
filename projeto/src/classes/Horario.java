@@ -75,6 +75,23 @@ public class Horario {
         return subLista;
     }
 
+    /**
+     * Checa se o horário, ao ser somado com uma duração, ultrapassa o limite diário
+     * de 24H
+     */
+    public boolean horarioSomadoComDuracaoEstoraODia(DuracaoDeVoo duracao) {
+        int minutosTotais = this.minutos + duracao.pegaMinutos();
+        int horasDosMinutos = minutosTotais / 60;
+        int horasTotais = this.horas + duracao.pegaHoras() + horasDosMinutos;
+
+        if (horasTotais >= 24) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     /** Pega novo horário que é a soma desse com uma duração de vôo. */
     public Horario pegaHorarioSomadoComDuracao(DuracaoDeVoo duracao) {
         int minutosTotais = this.minutos + duracao.pegaMinutos();
