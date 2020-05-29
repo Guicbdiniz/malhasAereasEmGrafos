@@ -29,4 +29,14 @@ public class GrafoDirigido extends Grafo {
 
         this.pegaVertice(idOrigem).adicionaVizinho(this.pegaVertice(idDestino), peso);
     }
+
+    /** Pega número de arestas do grafo dirigido. */
+    @Override
+    public int pegaNumeroDeArestas() {
+        int numeroTotalDeArestas = 0;
+        for (Vertice vertice : verticesMap.values()) {
+            numeroTotalDeArestas += vertice.pegaVizinhos().size();
+        }
+        return numeroTotalDeArestas;
+    }
 }

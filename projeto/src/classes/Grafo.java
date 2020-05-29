@@ -19,7 +19,7 @@ import java.util.Stack;
 public class Grafo {
 
     private int numeroDeVertices;
-    private Map<String, Vertice> verticesMap;
+    protected Map<String, Vertice> verticesMap;
 
     /** Simples construtor. */
     public Grafo() {
@@ -127,6 +127,16 @@ public class Grafo {
         }
 
         caminhoAtual.pop();
+    }
+
+    /** Pega número de arestas do grafo. */
+    public int pegaNumeroDeArestas() {
+        int numeroDeArestasTotal = 0;
+
+        for (Vertice vertice : verticesMap.values()) {
+            numeroDeArestasTotal += vertice.pegaVizinhos().size();
+        }
+        return numeroDeArestasTotal / 2;
     }
 
     /** Retorna o grafo em forma de String que pode ser lido por usuários. */

@@ -27,6 +27,21 @@ public class GrafoDirigidoTeste {
         this.grafoDirigidoTeste = new GrafoDirigido();
     }
 
+    public void setUpArestasDeMesmoPeso() {
+        grafoDirigidoTeste.adicionaAresta("A", "B", pesoTeste);
+        grafoDirigidoTeste.adicionaAresta("A", "H", pesoTeste);
+        grafoDirigidoTeste.adicionaAresta("A", "F", pesoTeste);
+        grafoDirigidoTeste.adicionaAresta("F", "A", pesoTeste);
+        grafoDirigidoTeste.adicionaAresta("E", "F", pesoTeste);
+        grafoDirigidoTeste.adicionaAresta("C", "E", pesoTeste);
+        grafoDirigidoTeste.adicionaAresta("H", "G", pesoTeste);
+        grafoDirigidoTeste.adicionaAresta("B", "G", pesoTeste);
+        grafoDirigidoTeste.adicionaAresta("C", "G", pesoTeste);
+        grafoDirigidoTeste.adicionaAresta("B", "D", pesoTeste);
+        grafoDirigidoTeste.adicionaAresta("B", "E", pesoTeste);
+        grafoDirigidoTeste.adicionaAresta("E", "C", pesoTeste);
+    }
+
     @Test
     public void testaAdicionaAresta() {
         this.grafoDirigidoTeste.adicionaAresta("A", "B", this.pesoTeste);
@@ -60,6 +75,12 @@ public class GrafoDirigidoTeste {
         }
 
         assertEquals(3, caminhosEntreAEG.size());
+    }
+
+    @Test
+    public void testaPegaNumeroDeArestas() {
+        setUpArestasDeMesmoPeso();
+        assertEquals(12, this.grafoDirigidoTeste.pegaNumeroDeArestas());
     }
 
 }

@@ -26,6 +26,19 @@ public class GrafoTeste {
         this.grafoTeste = new Grafo();
     }
 
+    public void setUpArestasDeMesmoPeso() {
+        grafoTeste.adicionaAresta("A", "B", pesoTeste);
+        grafoTeste.adicionaAresta("A", "F", pesoTeste);
+        grafoTeste.adicionaAresta("A", "H", pesoTeste);
+        grafoTeste.adicionaAresta("B", "D", pesoTeste);
+        grafoTeste.adicionaAresta("F", "E", pesoTeste);
+        grafoTeste.adicionaAresta("E", "C", pesoTeste);
+        grafoTeste.adicionaAresta("B", "G", pesoTeste);
+        grafoTeste.adicionaAresta("H", "G", pesoTeste);
+        grafoTeste.adicionaAresta("G", "C", pesoTeste);
+        grafoTeste.adicionaAresta("B", "E", pesoTeste);
+    }
+
     @Test
     public void testaAdicionaVertice() {
         this.grafoTeste.adicionaVertice("A");
@@ -56,6 +69,12 @@ public class GrafoTeste {
         List<Caminho> caminhosEntreAEG = grafoTeste.pegaCaminhosEntreVertices("A", "G");
 
         assertEquals(5, caminhosEntreAEG.size());
+    }
+
+    @Test
+    public void testaPegaNumeroDeArestas() {
+        setUpArestasDeMesmoPeso();
+        assertEquals(10, this.grafoTeste.pegaNumeroDeArestas());
     }
 
 }
