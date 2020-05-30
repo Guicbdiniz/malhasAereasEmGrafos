@@ -77,4 +77,57 @@ public class GrafoTeste {
         assertEquals(10, this.grafoTeste.pegaNumeroDeArestas());
     }
 
+    @Test
+    public void testaPegaArvoreMinima() {
+
+        DuracaoDeVoo duracaoQualquer = new DuracaoDeVoo(1, 20);
+        Grafo teste = new Grafo();
+
+        PesoDaAresta pesoAB = PesoDaAresta.criaPesoDeRota(2, duracaoQualquer);
+        teste.adicionaAresta("A", "B", pesoAB);
+
+        PesoDaAresta pesoAD = PesoDaAresta.criaPesoDeRota(7, duracaoQualquer);
+        teste.adicionaAresta("A", "D", pesoAD);
+
+        PesoDaAresta pesoAC = PesoDaAresta.criaPesoDeRota(3, duracaoQualquer);
+        teste.adicionaAresta("A", "C", pesoAC);
+
+        PesoDaAresta pesoBC = PesoDaAresta.criaPesoDeRota(3, duracaoQualquer);
+        teste.adicionaAresta("B", "C", pesoBC);
+
+        PesoDaAresta pesoBH = PesoDaAresta.criaPesoDeRota(1, duracaoQualquer);
+        teste.adicionaAresta("B", "H", pesoBH);
+
+        PesoDaAresta pesoCH = PesoDaAresta.criaPesoDeRota(5, duracaoQualquer);
+        teste.adicionaAresta("C", "H", pesoCH);
+
+        PesoDaAresta pesoCD = PesoDaAresta.criaPesoDeRota(1, duracaoQualquer);
+        teste.adicionaAresta("C", "D", pesoCD);
+
+        PesoDaAresta pesoCF = PesoDaAresta.criaPesoDeRota(1, duracaoQualquer);
+        teste.adicionaAresta("C", "F", pesoCF);
+
+        PesoDaAresta pesoDE = PesoDaAresta.criaPesoDeRota(1, duracaoQualquer);
+        teste.adicionaAresta("D", "E", pesoDE);
+
+        PesoDaAresta pesoDF = PesoDaAresta.criaPesoDeRota(9, duracaoQualquer);
+        teste.adicionaAresta("D", "F", pesoDF);
+
+        PesoDaAresta pesoEF = PesoDaAresta.criaPesoDeRota(3, duracaoQualquer);
+        teste.adicionaAresta("E", "F", pesoEF);
+
+        PesoDaAresta pesoFH = PesoDaAresta.criaPesoDeRota(1, duracaoQualquer);
+        teste.adicionaAresta("F", "H", pesoFH);
+
+        PesoDaAresta pesoFG = PesoDaAresta.criaPesoDeRota(1, duracaoQualquer);
+        teste.adicionaAresta("F", "G", pesoFG);
+
+        PesoDaAresta pesoHG = PesoDaAresta.criaPesoDeRota(5, duracaoQualquer);
+        teste.adicionaAresta("H", "G", pesoHG);
+
+        Grafo arvoreMinima = teste.pegaArvoreGeradoraMinima();
+
+        System.out.println(arvoreMinima);
+    }
+
 }

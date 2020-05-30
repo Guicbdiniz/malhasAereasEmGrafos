@@ -48,9 +48,14 @@ public class MalhaAerea {
                 }
             }
         }
-
         return horarioDoUltimoVoo;
+    }
 
+    public EmpresaAereaDeCarga pegaEmpresaDeCaminhoMinimo() {
+        Grafo arvoreGeradoraMinimaDasRotas = rotas.pegaArvoreGeradoraMinima();
+        int numeroDeArestasDasRotas = arvoreGeradoraMinimaDasRotas.pegaNumeroDeArestas();
+
+        return new EmpresaAereaDeCarga(numeroDeArestasDasRotas, arvoreGeradoraMinimaDasRotas);
     }
 
     /** Retorna a Malha Aérea em forma de String que pode ser lido por usuários. */

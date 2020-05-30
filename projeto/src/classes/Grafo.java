@@ -139,6 +139,26 @@ public class Grafo {
         return numeroDeArestasTotal / 2;
     }
 
+    /**
+     * Pega árvore geradora mínima do grafo em relação à distância entre aeroportos.
+     * 
+     * Foi usado o algoritmo de Prim.
+     */
+    public Grafo pegaArvoreGeradoraMinima() {
+        int contador = 0;
+        Vertice inicial = null;
+
+        for (Vertice vertice : verticesMap.values()) {
+            if (contador == 0) {
+                inicial = vertice;
+                contador++;
+            }
+        }
+        AlgoritmoDePrim algoritmoDePrim = new AlgoritmoDePrim(verticesMap, inicial);
+
+        return algoritmoDePrim.pegaArvoreMinima();
+    }
+
     /** Retorna o grafo em forma de String que pode ser lido por usuários. */
     @Override
     public String toString() {
