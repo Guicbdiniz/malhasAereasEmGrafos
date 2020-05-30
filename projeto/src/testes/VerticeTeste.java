@@ -32,7 +32,6 @@ public class VerticeTeste {
 
     @Test
     public void testaAdicionarVizinho() {
-
         this.verticeTeste.adicionaVizinho(verticeVizinhoTeste, this.pesoTeste);
         assertEquals(1, verticeTeste.pegaVizinhos().size());
     }
@@ -42,5 +41,19 @@ public class VerticeTeste {
 
         this.verticeTeste.adicionaVizinho(verticeVizinhoTeste, this.pesoTeste);
         assertEquals(2, this.verticeTeste.pegaPeso(this.verticeVizinhoTeste));
+    }
+
+    @Test
+    public void testaPegaVizinhoDeMenorDistancia() {
+        Vertice vizinho1 = new Vertice("C");
+        Vertice vizinho2 = new Vertice("D");
+        PesoDaAresta peso1 = PesoDaAresta.criaPesoDeRota(50, new DuracaoDeVoo(1, 30));
+        PesoDaAresta peso2 = PesoDaAresta.criaPesoDeRota(100, new DuracaoDeVoo(2, 5));
+
+        verticeTeste.adicionaVizinho(verticeVizinhoTeste, pesoTeste);
+        verticeTeste.adicionaVizinho(vizinho1, peso1);
+        verticeTeste.adicionaVizinho(vizinho2, peso2);
+
+        assertEquals(new Vertice("B").pegaID(), verticeTeste.pegaVizinhoDeMenorDistancia().pegaID());
     }
 }

@@ -42,6 +42,28 @@ public class Vertice {
         return this.adjacentes.keySet();
     }
 
+    /**
+     * Pega vizinho de menor distância.
+     */
+    public Vertice pegaVizinhoDeMenorDistancia() {
+        Vertice vizinhoDeMenorDistancia = null;
+        int menorDistancia = 0;
+
+        for (Vertice vizinho : pegaVizinhos()) {
+            if (vizinhoDeMenorDistancia == null) {
+                vizinhoDeMenorDistancia = vizinho;
+                menorDistancia = adjacentes.get(vizinho).pegaDistancia();
+            } else {
+                if (adjacentes.get(vizinho).pegaDistancia() < menorDistancia) {
+                    vizinhoDeMenorDistancia = vizinho;
+                    menorDistancia = adjacentes.get(vizinho).pegaDistancia();
+                }
+            }
+        }
+
+        return vizinhoDeMenorDistancia;
+    }
+
     /** Pega nome identificador do vértice. */
     public String pegaID() {
         return this.id;
