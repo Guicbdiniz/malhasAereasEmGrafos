@@ -130,4 +130,22 @@ public class GrafoTeste {
         System.out.println(arvoreMinima);
     }
 
+    @Test
+    public void testaPegaMatrizDeAdjacencia() {
+        grafoTeste.adicionaAresta("A", "B", pesoTeste);
+        grafoTeste.adicionaAresta("A", "C", pesoTeste);
+        grafoTeste.adicionaAresta("C", "D", pesoTeste);
+        grafoTeste.adicionaAresta("C", "E", pesoTeste);
+        grafoTeste.adicionaAresta("C", "F", pesoTeste);
+
+        int[][] matriz = Grafo.pegaMatrizDeAdjacencia(grafoTeste.pegaMapaDeVertices());
+
+        for (int row = 0; row < grafoTeste.pegaNumeroDeVertices(); row++) {
+            for (int col = 0; col < grafoTeste.pegaNumeroDeVertices(); col++) {
+                System.out.print(matriz[row][col]);
+            }
+            System.out.println("");
+        }
+    }
+
 }

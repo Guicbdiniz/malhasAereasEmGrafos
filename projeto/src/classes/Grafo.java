@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.Map.Entry;
 
 /**
  * Grafo não dirigido.
@@ -157,6 +158,49 @@ public class Grafo {
         AlgoritmoDePrim algoritmoDePrim = new AlgoritmoDePrim(verticesMap, inicial);
 
         return algoritmoDePrim.pegaArvoreMinima();
+    }
+
+    /**
+     * Pega analisador de conectividade do grafo.
+     * 
+     * Com esse objeto é possível adquirir informações sobre conectividade do grafo.
+     */
+    public AnalisadorDeConectividade pegaAnalisadorDeConectivdade() {
+        return new AnalisadorDeConectividade(verticesMap);
+    }
+
+    /** Pega matriz de adjacencia de um conjunto de vértices. */
+    public static int[][] pegaMatrizDeAdjacencia(Map<String, Vertice> vertices) {
+        int numeroDeVertices = vertices.size();
+        Map<String, Integer> indiceDeCadaVertice = new HashMap<String, Integer>();
+
+        int indice = 0;
+        for (String idVertice : vertices.keySet()) {
+            indiceDeCadaVertice.put(idVertice, indice++);
+        }
+
+        int[][] matrizDeAdjacencia = new int[numeroDeVertices][numeroDeVertices];
+        for (int row = 0; row < numeroDeVertices; row++) {
+            for (int col = 0; col < numeroDeVertices; col++) {
+                matrizDeAdjacencia[row][col] = 0;
+            }
+        }
+
+        for (Entry<String, Vertice> vertice : vertices.entrySet()) {
+            int indiceDoVertice = indiceDeCadaVertice.get(vertice.getKey());
+
+            for (Vertice vizinho : vertice.getValue().pegaVizinhos()) {
+                int indiceDoVizinho = indiceDeCadaVertice.get(vizinho.pegaID());
+                matrizDeAdjacencia[indiceDoVertice][indiceDoVizinho] = 1;
+            }
+        }
+
+        return matrizDeAdjacencia;
+    }
+
+    /** Pega mapa de vértices do grafo. */
+    public Map<String, Vertice> pegaMapaDeVertices() {
+        return verticesMap;
     }
 
     /** Retorna o grafo em forma de String que pode ser lido por usuários. */
