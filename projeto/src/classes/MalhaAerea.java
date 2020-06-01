@@ -22,6 +22,28 @@ public class MalhaAerea {
     }
 
     /**
+     * Analisa conectividade das rotas da malha aérea, retornando uma mensagem
+     * explicando se o grafo de rotas é conexo. Se ele for conexo, também são
+     * apresentados seus cut vértices. Se ele não for conexo, são apresentados seus
+     * componentes conexos.
+     * 
+     * @return mensagem com informações da conectividade da malha.
+     */
+    public String pegaMensagemRelacionadaAConectividade() {
+        AnalisadorDeConectividade analisadorDeConectividade = rotas.pegaAnalisadorDeConectivdade();
+
+        StringBuilder textoDeConectividade = new StringBuilder();
+
+        if (analisadorDeConectividade.grafoEConexo()) {
+            textoDeConectividade.append("É possível atingir, a partir de um aeroporto, todos os outros\n");
+        } else {
+            textoDeConectividade.append("Não é possível atingir, a partir de qualquer aeroporto, todos os outros\n");
+        }
+
+        return textoDeConectividade.toString();
+    }
+
+    /**
      * Pega o horário do último vôo que pode se pegar no aeroporto de origem em uma
      * rota para o aeroporto de destino que seja possível de ser feita antes do
      * horário limite.
@@ -51,6 +73,14 @@ public class MalhaAerea {
         return horarioDoUltimoVoo;
     }
 
+    /**
+     * Pega empresa aérea de carga com frota de aeronaves que farão voos de ida e
+     * volta entre dois aeroportos.
+     * 
+     * A empresa deve alcançar todos os vértices do grafo.
+     * 
+     * @return empresa aérea.
+     */
     public EmpresaAereaDeCarga pegaEmpresaDeCaminhoMinimo() {
         Grafo arvoreGeradoraMinimaDasRotas = rotas.pegaArvoreGeradoraMinima();
         int numeroDeArestasDasRotas = arvoreGeradoraMinimaDasRotas.pegaNumeroDeArestas();

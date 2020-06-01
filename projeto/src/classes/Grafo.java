@@ -198,6 +198,40 @@ public class Grafo {
         return matrizDeAdjacencia;
     }
 
+    public static int[][] pegaMatrizDeAdjacencia(Map<String, Vertice> vertices, String removido) {
+        Map<String, Vertice> verticesCopia = new HashMap<String, Vertice>(vertices);
+
+        verticesCopia.remove(removido);
+
+        int numeroDeVertices = verticesCopia.size();
+        Map<String, Integer> indiceDeCadaVertice = new HashMap<String, Integer>();
+
+        int indice = 0;
+        for (String idVertice : verticesCopia.keySet()) {
+            indiceDeCadaVertice.put(idVertice, indice++);
+        }
+
+        int[][] matrizDeAdjacencia = new int[numeroDeVertices][numeroDeVertices];
+        for (int row = 0; row < numeroDeVertices; row++) {
+            for (int col = 0; col < numeroDeVertices; col++) {
+                matrizDeAdjacencia[row][col] = 0;
+            }
+        }
+
+        for (Entry<String, Vertice> vertice : verticesCopia.entrySet()) {
+            int indiceDoVertice = indiceDeCadaVertice.get(vertice.getKey());
+
+            for (Vertice vizinho : vertice.getValue().pegaVizinhos()) {
+                if (!vizinho.pegaID().equals(removido)) {
+                    int indiceDoVizinho = indiceDeCadaVertice.get(vizinho.pegaID());
+                    matrizDeAdjacencia[indiceDoVertice][indiceDoVizinho] = 1;
+                }
+            }
+        }
+
+        return matrizDeAdjacencia;
+    }
+
     /** Pega mapa de vértices do grafo. */
     public Map<String, Vertice> pegaMapaDeVertices() {
         return verticesMap;

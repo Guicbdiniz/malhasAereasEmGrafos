@@ -138,10 +138,10 @@ public class GrafoTeste {
         grafoTeste.adicionaAresta("C", "E", pesoTeste);
         grafoTeste.adicionaAresta("C", "F", pesoTeste);
 
-        int[][] matriz = Grafo.pegaMatrizDeAdjacencia(grafoTeste.pegaMapaDeVertices());
+        int[][] matriz = Grafo.pegaMatrizDeAdjacencia(grafoTeste.pegaMapaDeVertices(), "A");
 
-        for (int row = 0; row < grafoTeste.pegaNumeroDeVertices(); row++) {
-            for (int col = 0; col < grafoTeste.pegaNumeroDeVertices(); col++) {
+        for (int row = 0; row < grafoTeste.pegaNumeroDeVertices() - 1; row++) {
+            for (int col = 0; col < grafoTeste.pegaNumeroDeVertices() - 1; col++) {
                 System.out.print(matriz[row][col]);
             }
             System.out.println("");
