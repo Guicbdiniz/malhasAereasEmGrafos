@@ -40,6 +40,7 @@ public class VerticeTeste {
     public void testaRemoverVizinho() {
         verticeTeste.adicionaVizinho(verticeVizinhoTeste, pesoTeste);
         verticeTeste.removeVizinho(verticeVizinhoTeste);
+        verticeTeste.removeVizinho(new Vertice("P"));
         assertEquals(0, verticeTeste.pegaVizinhos().size());
     }
 
