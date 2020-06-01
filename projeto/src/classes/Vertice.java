@@ -35,6 +35,11 @@ public class Vertice {
         this.adjacentes.put(vizinho, peso);
     }
 
+    /** Remove vizinho do vértice. */
+    public void removeVizinho(Vertice vizinho) {
+        this.adjacentes.remove(vizinho);
+    }
+
     /**
      * Pega todos os vizinhos do vértice.
      */

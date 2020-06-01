@@ -37,6 +37,13 @@ public class VerticeTeste {
     }
 
     @Test
+    public void testaRemoverVizinho() {
+        verticeTeste.adicionaVizinho(verticeVizinhoTeste, pesoTeste);
+        verticeTeste.removeVizinho(verticeVizinhoTeste);
+        assertEquals(0, verticeTeste.pegaVizinhos().size());
+    }
+
+    @Test
     public void testaPegaPeso() {
 
         this.verticeTeste.adicionaVizinho(verticeVizinhoTeste, this.pesoTeste);
