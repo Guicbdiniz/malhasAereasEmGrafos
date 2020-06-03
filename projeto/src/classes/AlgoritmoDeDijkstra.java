@@ -9,7 +9,8 @@ import java.util.Queue;
 import java.util.Stack;
 
 /**
- * MenorCusto
+ * Estrutura de dados usada para se pegar a menor distância entre um vértice
+ * e outro utilizando o algoritmo de Dijsktra
  */
 public class AlgoritmoDeDijkstra {
 
