@@ -198,6 +198,10 @@ public class Grafo {
         return matrizDeAdjacencia;
     }
 
+    /**
+     * Pega matriz de adjacência de um conjunto de vértices com a remoção de um
+     * vértice.
+     */
     public static int[][] pegaMatrizDeAdjacencia(Map<String, Vertice> vertices, String removido) {
         Map<String, Vertice> verticesCopia = new HashMap<String, Vertice>(vertices);
 
