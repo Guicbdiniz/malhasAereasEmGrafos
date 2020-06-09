@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
-import java.util.Map.Entry;
 
 /**
  * Grafo não dirigido.
@@ -158,6 +158,14 @@ public class Grafo {
         AlgoritmoDePrim algoritmoDePrim = new AlgoritmoDePrim(verticesMap, inicial);
 
         return algoritmoDePrim.pegaArvoreMinima();
+    }
+
+    /**
+     * Pega o menor custo entre dois vértices (origem e destino) usando distância como parâmetro.
+     */
+    public String pegaDistanciaMinima ( String idInicial, String idDestino) {
+        AlgoritmoDeDijkstra algoritmoDeDijkstra = new AlgoritmoDeDijkstra(verticesMap, idInicial, idDestino);
+        return algoritmoDeDijkstra.toString();
     }
 
     /**
