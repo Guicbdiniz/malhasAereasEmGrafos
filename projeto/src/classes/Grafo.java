@@ -165,7 +165,35 @@ public class Grafo {
      */
     public String pegaDistanciaMinima ( String idInicial, String idDestino) {
         AlgoritmoDeDijkstra algoritmoDeDijkstra = new AlgoritmoDeDijkstra(verticesMap, idInicial, idDestino);
-        return algoritmoDeDijkstra.toString();
+        algoritmoDeDijkstra.distanciaMinima();
+        return algoritmoDeDijkstra.pegaDistanciaEmTexto();
+    }
+
+     /**
+     * Pega o menor custo entre dois vértices (origem e destino) usando distância como parâmetro.
+     */
+    public String pegaConexoesMinima ( String idInicial, String idDestino) {
+        AlgoritmoDeDijkstra algoritmoDeDijkstra = new AlgoritmoDeDijkstra(verticesMap, idInicial, idDestino);
+        algoritmoDeDijkstra.conexoesMinima();
+        return algoritmoDeDijkstra.pegaConexoesEmTxto();
+    }
+
+     /**
+     * Pega o menor custo entre dois vértices (origem e destino) usando distância como parâmetro.
+     */
+    public String pegaTempoVooMinima ( String idInicial, String idDestino) {
+        AlgoritmoDeDijkstra algoritmoDeDijkstra = new AlgoritmoDeDijkstra(verticesMap, idInicial, idDestino);
+        algoritmoDeDijkstra.tempoVooMinima();
+        return algoritmoDeDijkstra.pegaTempoVooEmTexto();
+    }
+
+     /**
+     * Pega o menor custo entre dois vértices (origem e destino) usando distância como parâmetro.
+     */
+    public String pegaTempoViagemMinima ( String idInicial, String idDestino) {
+        AlgoritmoDeDijkstra algoritmoDeDijkstra = new AlgoritmoDeDijkstra(verticesMap, idInicial, idDestino);
+        algoritmoDeDijkstra.tempoViagemMinima();
+        return algoritmoDeDijkstra.pegaTempoViagemEmTexto();
     }
 
     /**
