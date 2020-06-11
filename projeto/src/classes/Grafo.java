@@ -175,7 +175,7 @@ public class Grafo {
     public String pegaConexoesMinima ( String idInicial, String idDestino) {
         AlgoritmoDeDijkstra algoritmoDeDijkstra = new AlgoritmoDeDijkstra(verticesMap, idInicial, idDestino);
         algoritmoDeDijkstra.conexoesMinima();
-        return algoritmoDeDijkstra.pegaConexoesEmTxto();
+        return algoritmoDeDijkstra.pegaConexoesEmTexto();
     }
 
      /**

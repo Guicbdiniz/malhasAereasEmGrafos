@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Stack;
 
 /**
  * Estrutura de dados usada para se pegar a menor distância entre um vértice e
@@ -20,13 +19,15 @@ public class AlgoritmoDeDijkstra {
 
     private static final int CUSTO_INFINITO = Integer.MAX_VALUE;
     private Map<String, Integer> distancias;
+    private Map<String, Integer> distanciasVoo;
+    private Map<String, Integer> distanciasViagem;
     private Map<String, Integer> distanciasConexoes;
     private Map<String, Vertice> vertices;
     private Map<Integer, Vertice> pegaVertice;
     private Map<String, Queue<Vertice>> caminhos;
-    private List<Vertice> verticesNaoVistados;
+    private List<Vertice> verticesNaoVisitados;
     private List<Integer> menorNaoVisitado;
-    private Stack<Vertice> vizinhos;
+    private List<Vertice> vizinhos;
     private Vertice inicial;
     private Vertice destino;
     private String returnCaminho;
@@ -45,11 +46,13 @@ public class AlgoritmoDeDijkstra {
         inicial = vertices.get(idInicial);
         destino = vertices.get(idDestino);
         distancias = new HashMap<String, Integer>();
+        distanciasVoo = new HashMap<String, Integer>();
+        distanciasViagem = new HashMap<String, Integer>();
         distanciasConexoes = new HashMap<String, Integer>();
         pegaVertice = new HashMap<Integer, Vertice>();
         caminhos = new HashMap<String, Queue<Vertice>>();
-        vizinhos = new Stack<Vertice>();
-        verticesNaoVistados = new LinkedList<Vertice>();
+        vizinhos = new LinkedList<Vertice>();
+        verticesNaoVisitados = new LinkedList<Vertice>();
         menorNaoVisitado = new LinkedList<Integer>();
 
         inicializacao();
@@ -76,19 +79,25 @@ public class AlgoritmoDeDijkstra {
         for (String verticeID : vertices.keySet()) {
             distancias.put(verticeID, CUSTO_INFINITO);
             distanciasConexoes.put(verticeID, CUSTO_INFINITO);
+            distanciasVoo.put(verticeID, CUSTO_INFINITO);
+            distanciasViagem.put(verticeID, CUSTO_INFINITO);
             caminhos.put(verticeID, new LinkedList<Vertice>());
         }
 
         for (Vertice vertice : vertices.values()) {
-            verticesNaoVistados.add(vertice);
-            caminhos.get(vertice.pegaID()).add(vertice);
+            verticesNaoVisitados.add(vertice);
+            caminhos.get(vertice.pegaID()).add(inicial);
         }
 
         distancias.put(inicial.pegaID(), 0);
-        verticesNaoVistados.remove(inicial);
+        distanciasConexoes.put(inicial.pegaID(), 0);
+        distanciasViagem.put(inicial.pegaID(), 0);
+        distanciasVoo.put(inicial.pegaID(), 0);
+        verticesNaoVisitados.remove(inicial);
 
         for (Vertice vizinho : inicial.pegaVizinhos()) {
-            distancias.put(vizinho.pegaID(), inicial.pegaPeso(vizinho).pegaDuracao().pegaDuracaoTotalVoo());
+            distanciasVoo.put(vizinho.pegaID(), inicial.pegaPeso(vizinho).pegaDuracao().pegaDuracaoTotalVoo());
+            distancias.put(vizinho.pegaID(), inicial.pegaPeso(vizinho).pegaDistancia());
             distanciasConexoes.put(vizinho.pegaID(), 1);
             caminhos.get(vizinho.pegaID()).add(vizinho);
         }
@@ -99,85 +108,101 @@ public class AlgoritmoDeDijkstra {
      * Usa duração do tempo de voo como parâmetro.
      */
     private void rodaAlgoritmoTempoVoo() {
-        Vertice verticeAtual = menorNaoVisitado();
-        int pesoProVizinhoAtual = verticeAtual.pegaPeso(inicial).pegaDuracao().pegaDuracaoTotalVoo();
-        verticesNaoVistados.remove(verticeAtual);
+        if (distanciasConexoes.get(destino.pegaID()) == 1) {
+            returnCusto = distanciasVoo.get(destino.pegaID());
+            returnCaminho = destino.pegaID();
+        } else {
+            while (verticesNaoVisitados.size() > 0) {
+                Vertice verticeAtual = menorNaoVisitadoVoo();
+                int pesoProVizinhoAtual = distanciasVoo.get(verticeAtual.pegaID());
 
-        while (verticesNaoVistados.size() > 1) {
-            for (Vertice vizinho : verticeAtual.pegaVizinhos()) {
-                if (verticesNaoVistados.contains(vizinho))
-                    vizinhos.add(vizinho);
-            }
-
-            for (Vertice vizinho : vizinhos) {
-                int pesoProVizinhoProx = verticeAtual.pegaPeso(vizinho).pegaDuracao().pegaDuracaoTotalVoo();
-                if (pesoProVizinhoProx + pesoProVizinhoAtual < distancias.get(vizinho.pegaID())) {
-                    distancias.put(vizinho.pegaID(), pesoProVizinhoProx + pesoProVizinhoAtual);
-                    caminhos.get(vizinho.pegaID()).add(vizinho);
+                for (Vertice vizinho : verticeAtual.pegaVizinhos()) {
+                    if (verticesNaoVisitados.contains(vizinho))
+                        vizinhos.add(vizinho);
                 }
-                verticesNaoVistados.remove(vizinho);
+                int tamanhoVizinhos = vizinhos.size();
+                for (int i = 0; i < tamanhoVizinhos; i++) {
+                    Vertice vizinho = vizinhos.get(0);
+                    int pesoProVizinhoProx = verticeAtual.pegaPeso(vizinho).pegaDuracao().pegaDuracaoTotalVoo();
+                    if (pesoProVizinhoProx + pesoProVizinhoAtual < distanciasVoo.get(vizinho.pegaID())) {
+                        distanciasVoo.put(vizinho.pegaID(), pesoProVizinhoProx + pesoProVizinhoAtual);
+                        caminhos.get(vizinho.pegaID()).add(vizinho);
+                    }
+                    vizinhos.remove(vizinho);
+                }
             }
+            returnCaminho = caminhos.get(destino.pegaID()).toString();
+            returnCusto = distanciasVoo.get(destino.pegaID());
         }
-        returnCaminho = caminhos.get(destino.pegaID()).toString();
-        returnCusto = distancias.get(destino.pegaID());
     }
 
     /**
      * Roda algoritmo de Dijkstra para pegar o menor caminho entre um vértice outro.
      * Usa distância entre vértices como parâmetro.
      */
+
     private void rodaAlgoritmoDistancia() {
-        Vertice verticeAtual = menorNaoVisitado();
-        int pesoProVizinhoAtual = verticeAtual.pegaPeso(inicial).pegaDistancia();
-        verticesNaoVistados.remove(verticeAtual);
+        if (distanciasConexoes.get(destino.pegaID()) == 1) {
+            returnCusto = distancias.get(destino.pegaID());
+            returnCaminho = destino.pegaID();
+        } else {
+            while (verticesNaoVisitados.size() > 0) {
+                Vertice verticeAtual = menorNaoVisitadoDistancia();
+                int pesoProVizinhoAtual = distancias.get(verticeAtual.pegaID());
 
-        while (verticesNaoVistados.size() > 1) {
-            for (Vertice vizinho : verticeAtual.pegaVizinhos()) {
-                if (verticesNaoVistados.contains(vizinho))
-                    vizinhos.add(vizinho);
-            }
-
-            for (Vertice vizinho : vizinhos) {
-                int pesoProVizinhoProx = verticeAtual.pegaPeso(vizinho).pegaDistancia();
-                if (pesoProVizinhoProx + pesoProVizinhoAtual < distancias.get(vizinho.pegaID())) {
-                    distancias.put(vizinho.pegaID(), pesoProVizinhoProx + pesoProVizinhoAtual);
-                    caminhos.get(vizinho.pegaID()).add(vizinho);
+                for (Vertice vizinho : verticeAtual.pegaVizinhos()) {
+                    if (verticesNaoVisitados.contains(vizinho))
+                        vizinhos.add(vizinho);
                 }
-                verticesNaoVistados.remove(vizinho);
+                int tamanhoVizinhos = vizinhos.size();
+                for (int i = 0; i < tamanhoVizinhos; i++) {
+                    Vertice vizinho = vizinhos.get(0);
+                    int pesoProVizinhoProx = verticeAtual.pegaPeso(vizinho).pegaDistancia();
+                    if (pesoProVizinhoProx + pesoProVizinhoAtual < distancias.get(vizinho.pegaID())) {
+                        distancias.put(vizinho.pegaID(), pesoProVizinhoProx + pesoProVizinhoAtual);
+                        caminhos.get(vizinho.pegaID()).add(vizinho);
+                    }
+                    vizinhos.remove(vizinho);
+                }
             }
+            returnCaminho = caminhos.get(destino.pegaID()).toString();
+            returnCusto = distancias.get(destino.pegaID());
         }
-        returnCaminho = caminhos.get(destino.pegaID()).toString();
-        returnCusto = distancias.get(destino.pegaID());
     }
 
     /**
      * Roda algoritmo de Dijkstra para pegar o menor caminho entre um vértice outro
-     * Usa duração do tempo da viagem como parâmetro.
-     * No momento incompleto devido a necessidade de implementar a função pegaDuracaoTotalViagem
+     * Usa duração do tempo da viagem como parâmetro. No momento incompleto devido a
+     * necessidade de implementar a função pegaDuracaoTotalViagem
      */
 
     private void rodaAlgoritmoTempoViagem() {
-        Vertice verticeAtual = menorNaoVisitado();
-        int pesoProVizinhoAtual = verticeAtual.pegaPeso(inicial).pegaDuracao().pegaDuracaoTotalViagem();
-        verticesNaoVistados.remove(verticeAtual);
+        if (distanciasConexoes.get(destino.pegaID()) == 1) {
+            returnCusto = distanciasViagem.get(destino.pegaID());
+            returnCaminho = destino.pegaID();
+        } else {
+            while (verticesNaoVisitados.size() > 0) {
+                Vertice verticeAtual = menorNaoVisitadoViagem();
+                int pesoProVizinhoAtual = distanciasViagem.get(verticeAtual.pegaID());
 
-        while (verticesNaoVistados.size() > 1) {
-            for (Vertice vizinho : verticeAtual.pegaVizinhos()) {
-                if (verticesNaoVistados.contains(vizinho))
-                    vizinhos.add(vizinho);
-            }
-
-            for (Vertice vizinho : vizinhos) {
-                int pesoProVizinhoProx = verticeAtual.pegaPeso(vizinho).pegaDuracao().pegaDuracaoTotalVoo();
-                if (pesoProVizinhoProx + pesoProVizinhoAtual < distancias.get(vizinho.pegaID())) {
-                    distancias.put(vizinho.pegaID(), pesoProVizinhoProx + pesoProVizinhoAtual);
-                    caminhos.get(vizinho.pegaID()).add(vizinho);
+                for (Vertice vizinho : verticeAtual.pegaVizinhos()) {
+                    if (verticesNaoVisitados.contains(vizinho))
+                        vizinhos.add(vizinho);
                 }
-                verticesNaoVistados.remove(vizinho);
+                int tamanhoVizinhos = vizinhos.size();
+                for (int i = 0; i < tamanhoVizinhos; i++) {
+                    Vertice vizinho = vizinhos.get(0);
+                    int pesoProVizinhoProx = verticeAtual.pegaPeso(vizinho).pegaDuracao().pegaDuracaoTotalViagem();
+                    if (pesoProVizinhoProx + pesoProVizinhoAtual < distanciasViagem.get(vizinho.pegaID())) {
+                        distanciasViagem.put(vizinho.pegaID(), pesoProVizinhoProx + pesoProVizinhoAtual);
+                        caminhos.get(vizinho.pegaID()).add(vizinho);
+                    }
+                    vizinhos.remove(vizinho);
+                }
             }
+            returnCaminho = caminhos.get(destino.pegaID()).toString();
+            returnCusto = distanciasViagem.get(destino.pegaID());
         }
-        returnCaminho = caminhos.get(destino.pegaID()).toString();
-        returnCusto = distancias.get(destino.pegaID());
     }
 
     /**
@@ -185,40 +210,101 @@ public class AlgoritmoDeDijkstra {
      * Usa número de conexões entre vértices como parâmetro.
      */
     private void rodaAlgoritmoConexoes() {
-        Vertice verticeAtual = menorNaoVisitado();
-        int pesoProVizinhoAtual = distanciasConexoes.get(inicial.pegaID());
-        verticesNaoVistados.remove(verticeAtual);
+        if (distanciasConexoes.get(destino.pegaID()) == 1) {
+            returnCusto = 1;
+            returnCaminho = destino.pegaID();
+        } else {
+            while (verticesNaoVisitados.size() > 0) {
+                Vertice verticeAtual = menorNaoVisitadoConexoes();
+                int pesoProVizinhoAtual = distanciasConexoes.get(verticeAtual.pegaID());
 
-        while (verticesNaoVistados.size() > 1) {
-            for (Vertice vizinho : verticeAtual.pegaVizinhos()) {
-                if (verticesNaoVistados.contains(vizinho))
-                    vizinhos.add(vizinho);
-            }
-
-            for (Vertice vizinho : vizinhos) {
-                int pesoProVizinhoProx = verticeAtual.pegaPeso(vizinho).pegaDistancia();
-                if (pesoProVizinhoProx + pesoProVizinhoAtual < distanciasConexoes.get(vizinho.pegaID())) {
-                    distanciasConexoes.put(vizinho.pegaID(), pesoProVizinhoProx + pesoProVizinhoAtual);
-                    caminhos.get(vizinho.pegaID()).add(vizinho);
+                for (Vertice vizinho : verticeAtual.pegaVizinhos()) {
+                    if (verticesNaoVisitados.contains(vizinho))
+                        vizinhos.add(vizinho);
                 }
-                verticesNaoVistados.remove(vizinho);
+                int tamanhoVizinhos = vizinhos.size();
+                for (int i = 0; i < tamanhoVizinhos; i++) {
+                    Vertice vizinho = vizinhos.get(0);
+                    int pesoProVizinhoProx = 1;
+                    if (pesoProVizinhoProx + pesoProVizinhoAtual < distanciasConexoes.get(vizinho.pegaID())) {
+                        System.out.println(pesoProVizinhoProx);
+                        distanciasConexoes.put(vizinho.pegaID(), pesoProVizinhoProx + pesoProVizinhoAtual);
+                        caminhos.get(vizinho.pegaID()).add(vizinho);
+                    }
+                    vizinhos.remove(vizinho);
+                }
             }
+            returnCaminho = caminhos.get(destino.pegaID()).toString();
+            returnCusto = distanciasConexoes.get(destino.pegaID());
         }
-        returnCaminho = caminhos.get(destino.pegaID()).toString();
-        returnCusto = distanciasConexoes.get(destino.pegaID());
     }
 
-    /** Pega menor vértice de menor custo ainda não visitado */
-    public Vertice menorNaoVisitado() {
+    /** Pega menor vértice de menor distância ainda não visitado */
+    public Vertice menorNaoVisitadoDistancia() {
+        Vertice aux;
         int custo;
-        for (Vertice vertice : verticesNaoVistados) {
+        menorNaoVisitado.clear();
+        for (Vertice vertice : verticesNaoVisitados) {
             custo = distancias.get(vertice.pegaID());
             menorNaoVisitado.add(custo);
             pegaVertice.put(custo, vertice);
         }
 
         Collections.sort(menorNaoVisitado);
-        return pegaVertice.get(menorNaoVisitado.get(0));
+        aux = pegaVertice.get(menorNaoVisitado.get(0));
+        verticesNaoVisitados.remove(aux);
+        return aux;
+    }
+
+    /** Pega menor vértice de menor tempo de voo ainda não visitado */
+    public Vertice menorNaoVisitadoVoo() {
+        Vertice aux;
+        int custo;
+        menorNaoVisitado.clear();
+        for (Vertice vertice : verticesNaoVisitados) {
+            custo = distanciasVoo.get(vertice.pegaID());
+            menorNaoVisitado.add(custo);
+            pegaVertice.put(custo, vertice);
+        }
+
+        Collections.sort(menorNaoVisitado);
+        aux = pegaVertice.get(menorNaoVisitado.get(0));
+        verticesNaoVisitados.remove(aux);
+        return aux;
+    }
+
+    /** Pega menor vértice de menor número de conxões ainda não visitado */
+    public Vertice menorNaoVisitadoConexoes() {
+        Vertice aux;
+        int custo;
+        menorNaoVisitado.clear();
+        for (Vertice vertice : verticesNaoVisitados) {
+            custo = distanciasConexoes.get(vertice.pegaID());
+            menorNaoVisitado.add(custo);
+            pegaVertice.put(custo, vertice);
+        }
+
+        Collections.sort(menorNaoVisitado);
+        aux = pegaVertice.get(menorNaoVisitado.get(0));
+        verticesNaoVisitados.remove(aux);
+        return aux;
+    }
+
+    /** Pega menor vértice de menor tempo de voo ainda não visitado */
+    public Vertice menorNaoVisitadoViagem() {
+        Vertice aux;
+        int custo;
+        menorNaoVisitado.clear();
+        for (Vertice vertice : verticesNaoVisitados) {
+            custo = distanciasViagem.get(vertice.pegaID());
+            menorNaoVisitado.add(custo);
+            pegaVertice.put(custo, vertice);
+        }
+
+        Collections.sort(menorNaoVisitado);
+        aux = pegaVertice.get(menorNaoVisitado.get(0));
+        verticesNaoVisitados.remove(aux);
+        return aux;
     }
 
     /** Retorna distancia em forma de texto. */
@@ -228,16 +314,16 @@ public class AlgoritmoDeDijkstra {
     }
 
     /** Retorna número de conxões em forma de texto. */
-    public String pegaConexoesEmTxto() {
-        return "O caminho com menor número de conexões partindo de " + inicial.pegaID() + "para " + destino.pegaID()
-                + "é: " + returnCaminho + "com custo total de: " + returnCusto;
+    public String pegaConexoesEmTexto() {
+        return "O caminho com menor número de conexões partindo de " + inicial.pegaID() + " para " + destino.pegaID()
+                + " é: " + returnCaminho + " com custo total de: " + returnCusto;
     }
 
     /** Retorna tempo de voo em forma de texto. */
     public String pegaTempoVooEmTexto() {
         return "O caminho com menor tempo de voo partindo de " + inicial.pegaID() + " para " + destino.pegaID() + " é: "
-                + returnCaminho + " com custo total de: " + returnCusto + " minutos, ou " + returnCusto / 60 + " horas e "
-                + returnCusto % 60 + " minutos.";
+                + returnCaminho + " com custo total de: " + returnCusto + " minutos, ou " + returnCusto / 60
+                + " horas e " + returnCusto % 60 + " minutos.";
     }
 
     /** Retorna tempo de viagem em forma de texto. */
