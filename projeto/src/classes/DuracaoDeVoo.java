@@ -26,6 +26,11 @@ public class DuracaoDeVoo {
         return minutos;
     }
 
+    /** Transforma hora(s) e minuto(s) em apenas minuto(s) */
+    public int pegaDuracaoTotalVoo() {
+        return horas * 60 + minutos;
+    }   
+
     /**
      * Sobrecarga no método de comparação para que testes possam ser feitos.
      */
